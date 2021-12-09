@@ -1,6 +1,7 @@
 import { createServer } from "net";
 const fs = require('fs');
 const directory = '/Users/valen/Desktop/EFREI/NODEJS/myFtp/myFtp';
+const users = JSON.parse(fs.readFileSync('./src/userdata.json'));
 
 export function launch(port) {
     const server = createServer((socket) => {
@@ -12,17 +13,40 @@ export function launch(port) {
 
             switch (command) {
                 case "USER":
-                    socket.write("230 User logged in, proceed.\r\n");
+                    if (args[0] == undefined) {
+                        socket.write('Error enter an username and a password.\r\n');
+                        break;
+                      }else{
+                        socket.nameuser = args[0];
+                        let result = "";
+                        users.forEach(user => {
+                          if (user.name === socket.nameuser){
+                            socket.passuser = user.password;
+                            result = '230 User logged in, proceed.\r\n';
+                          }else{
+                            result = '230 User not exist.\r\n';
+                          }
+                        });
+                        socket.write(result);
+                        break;
+                      }
+                case "TEST":
+                    socket.write(`Username : ${socket.nameuser} Password : ${socket.passuser} \r\n `);
                     break;
                 case "PASS":
-                    socket.write("331 User name ok, need pass\r\n");
-                    break;
+                      if (args[0] == undefined || args[0] != socket.passuser) {
+                        socket.write('Error Please enter a valid password.\r\n');
+                        break;
+                      }else if (args[0] == socket.passuser){
+                        socket.write('331 Password valid.\r\n');
+                        break;
+                      }
+                      break;
                 case "LIST":
                     socket.write("125 Data connection already open; transfer starting\r\n");
                     break;
                 case "CWD":
                     try{
-
                     process.chdir(args[0]);
                     socket.write(`250 New directory, ${process.cwd()} \r\n`);
                     } catch(err) {
@@ -50,7 +74,6 @@ export function launch(port) {
             }
         });
 
-        socket.write("220 Hello World \r\n");
     });
 
     server.listen(port, () => {

@@ -9,6 +9,8 @@ const rl = createInterface({
 });
 const client = createConnection({ port: 4242 }, () => {
     console.log("client connected.");
+    console.log("Use command USER for connect");
+
     rl.question('tapper commande :', function(cmd) {
         client.write(cmd)
 
@@ -26,13 +28,6 @@ const client = createConnection({ port: 4242 }, () => {
             isAuthenticated = true;
         }
 
-                if (status == 220) {
-                    currentCommand = "USER";
-                    client.write("USER Valentin");
-                    rl.on("line", (input) => {
-                        client.write(input)
-                    });
-                };
                 if (status == 221) {
                     console.log("Client will now close")
                     process.exit();
