@@ -9,7 +9,7 @@ const rl = createInterface({
 });
 const client = createConnection({ port: 4242 }, () => {
     console.log("client connected.");
-    console.log("Use command USER for connect");
+    console.log("Use command USER for connect or CREATEUSER if you are not registered");
 
     rl.question('tapper commande :', function(cmd) {
         client.write(cmd)

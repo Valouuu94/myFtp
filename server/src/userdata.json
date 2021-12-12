@@ -1,7 +1,1 @@
-[
-
-    {
-        "name" : "valou",
-        "password":"valou"
-    }
-]
+[{"name":"valou","password":"valou"},{"name":"test","password":"test"}]
