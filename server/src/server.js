@@ -83,8 +83,8 @@ export function launch(port) {
                       socket.write(`250 New directory, ${process.cwd()} \r\n`);
                   } catch (err) {
                       socket.write(`non-existent file, try another path \r\n`)
-                      break;
                   }
+                  break;
               case "PWD":
                   socket.write(`257, ${process.cwd()} \r\n`);
                   break;
@@ -95,16 +95,16 @@ export function launch(port) {
                   socket.write("125 \r\n");
                   break;
               case "HELP":
-                    socket.write(`214, \nlist of all functions.\r
-                      CREATEUSER [username] [password] : Create a new User.\r
-                      USER [username] : Connect with a username.\r
-                      PASS [password] : Authenticate the user with a password.\r
-                      LIST : List the current directory of the server.\r
-                      PWD : Display the name of the current directory of the server.\r
-                      CWD [directory] : Change the current directory of the server.\r
-                      RETR [filename] : Transfer a copy of the file FILE from the server to the client.\r
-                      STOR [filename] : Transfer a copy of the file FILE from the client to the server.\r
-                      QUIT : Close the connection and stop the program.\r`);
+                    socket.write(`214, \n list of all functions.\n`+
+                    ` CREATEUSER [username] [password] : Create a new User.\n`+
+                    ` USER [username] : Connect with a username.\n`+
+                    ` PASS [password] : Authenticate the user with a password.\n`+
+                    ` LIST : List the current directory of the server.\n`+
+                    ` PWD : Display the name of the current directory of the server.\n`+
+                    ` CWD [directory] : Change the current directory of the server.\n`+
+                    ` RETR [filename] : Transfer a copy of the file FILE from the server to the client.\n`+
+                    ` STOR [filename] : Transfer a copy of the file FILE from the client to the server.\n`+
+                    ` QUIT : Close the connection and stop the program.\n`);
                     break;
               case "QUIT":
                   socket.write(`221 \r\n`);
