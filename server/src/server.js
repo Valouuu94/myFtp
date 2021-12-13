@@ -25,7 +25,7 @@ export function launch(port) {
                           }
                       });
                       if (flag) {
-                          socket.write(`Sorry An user as already this username, please choose another username.\r\n`);
+                          socket.write(`Sorry An user as already this username, please choose another one.\r\n`);
                       } else {
                           socket.nameuser = args[0];
                           socket.passuser = args[1];
@@ -46,7 +46,7 @@ export function launch(port) {
                   break;
               case "USER":
                   if (args[0] == undefined) {
-                      socket.write('Error enter an username and a password.\r\n');
+                      socket.write('Error enter an username .\r\n');
                       break;
                   } else {
                       socket.nameuser = args[0];
@@ -54,7 +54,7 @@ export function launch(port) {
                       users.forEach(user => {
                           if (user.name === socket.nameuser) {
                               socket.passuser = user.password;
-                              result = '230 User logged in, proceed.\r\n';
+                              result = '230 User logged in, proceed. Use command PASS to be login.\r\n';
                           } else {
                               result = '230 User not exist.\r\n';
                           }
@@ -68,7 +68,7 @@ export function launch(port) {
                       socket.write('Error Please enter a valid password.\r\n');
                       break;
                   } else if (args[0] == socket.passuser) {
-                      socket.write('331 Password valid. Welcome\r\n');
+                      socket.write('331 Password valid. Welcome, dont miss to use command HELP if you need.\r\n');
                       break;
                   }
                   break;
